@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 packages=(
+	"bluez"
+	"bluez-utils"
+	"bluez-tools"
 	"brightnessctl"
 	"base-devel"
 	"cclip"
