@@ -18,10 +18,10 @@ configuration {
 @import "paradise.rasi"
 
 window {
-	location: south;
+	location: north;
 	width: 19%;
 	height: 28%;
-	y-offset: -5px;
+	y-offset: 5px;
 	spacing: 0;
 	children: [ box ];
 }

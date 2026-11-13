@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+while IFS=": " read -r name value; do
+	echo "$name $value"
+	[[ "$name" == '"id"' ]] && id="${value%,}"
+	[[ "$name" == '"pid"' ]] && pid="${value%,}"
+	[[ "$name" == '"title"' ]] && title="${value%,}" && title="${title#\"}" && title="${title%\"}"
+	[[ "$name" == '"appid"' ]] && appid="${value%,}" && appid="${appid#\"}" && appid="${appid%\"}"
+	
+done < <(mmsg get focusing-client | jq)
+
+[[ -z "$title" ]] && exit 1
+
+message="Close '${title}'? [y/N]"
+width=$(( ${#message} + 10 ))
+
+one="Yes"
+two="No"
+
+choice=$(echo -e "$one\n$two" | \
+	rofi -dmenu -i \
+	-mesg "$message" \
+	-selected-row 1 \
+	-config $HOME/.config/rofi/kill-confirmation.rasi \
+	-theme-str "window { width: ${width}ch; }")
+
+case $choice in
+	$one)
+		mmsg dispatch focusid client,$id
+		mmsg dispatch killclient
+		;;
+	*) 
+		exit 1 
+		;;
+esac

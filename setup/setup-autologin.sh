@@ -7,6 +7,6 @@ echo -e """
 vt = \"1\"
 
 [default_session]
-command = \"start-hyprland\"
+command = \"mango\"
 user = \"${usn}\" 
 """ | sudo tee /etc/greetd/config.toml && systemctl enable --now greetd.service
